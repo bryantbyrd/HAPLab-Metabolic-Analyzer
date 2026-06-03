@@ -100,9 +100,11 @@ open index.html   # or double-click the file in Explorer
 
 ## Citation
 
-A permanent DOI and formal citation are coming soon via [Zenodo](https://zenodo.org). This page will be updated once the archive is live.
+If you use this tool in your research, please cite:
 
-In the meantime, a `CITATION.cff` file is included in this repository. GitHub displays it automatically as a **"Cite this repository"** button on the repo page, making it easy for others to copy a formatted reference.
+> Byrd, B. (2025). *HAPLab Metabolic Analyzer* (v1.0). Zenodo. https://doi.org/10.5281/zenodo.20533548
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20533548.svg)](https://doi.org/10.5281/zenodo.20533548)
 
 ---
 
