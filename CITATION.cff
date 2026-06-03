@@ -13,6 +13,7 @@ abstract: "A web-based data reduction and reporting tool for exercise physiology
 version: 1.0.0
 date-released: "2025-06-03"
 url: "https://github.com/bryantbyrd/HAPLab-Metabolic-Analyzer"
+doi: 10.5281/zenodo.20533548
 license: MIT
 keywords:
   - exercise physiology
