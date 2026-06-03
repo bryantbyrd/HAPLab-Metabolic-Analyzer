@@ -7149,8 +7149,12 @@ function applySideBySide() {
     compChart._isCompPane = true;    // signals plugin to use compVt1/2Pct globals
     compSideCharts[chartId] = compChart;
     setupCompDragOnChart(compChart);
-    // Resize so chartArea reflects actual SBS pane dimensions before drag handlers fire
+    // Resize so chartArea reflects actual SBS pane dimensions before drag handlers fire.
+    // Then force an explicit update so hapThresholdPlugin draws VT lines on the first
+    // frame — the initial new Chart() render runs before _hapXField/_isCompPane are set,
+    // and resize() is a no-op when CSS dimensions haven't changed.
     compChart.resize();
+    compChart.update('none');
 
     // Resize primary chart now that its container moved
     chart.resize();
