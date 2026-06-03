@@ -102,7 +102,7 @@ open index.html   # or double-click the file in Explorer
 
 If you use this tool in your research, please cite:
 
-> Byrd, B. (2025). *HAPLab Metabolic Analyzer* (v1.0). Zenodo. https://doi.org/10.5281/zenodo.20533548
+> Byrd, B. (2026). *HAPLab Metabolic Analyzer* (v1.0). Zenodo. https://doi.org/10.5281/zenodo.20533548
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20533548.svg)](https://doi.org/10.5281/zenodo.20533548)
 
