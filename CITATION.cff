@@ -11,7 +11,7 @@ abstract: "A web-based data reduction and reporting tool for exercise physiology
   training zone calculation, substrate utilization reporting, and longitudinal
   session comparison."
 version: 1.0.0
-date-released: "2025-06-03"
+date-released: "2026-06-03"
 url: "https://github.com/bryantbyrd/HAPLab-Metabolic-Analyzer"
 doi: 10.5281/zenodo.20533548
 license: MIT
