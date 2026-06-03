@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the metadata below."
+authors:
+  - family-names: Byrd
+    given-names: Bryant
+    affiliation: "Western Colorado University"
+title: "HAPLab Metabolic Analyzer"
+abstract: "A web-based data reduction and reporting tool for exercise physiology testing.
+  Integrates Parvo TrueOne 2400 metabolic cart data with blood lactate measurements,
+  supporting physiologist-determined ventilatory and lactate threshold identification,
+  training zone calculation, substrate utilization reporting, and longitudinal
+  session comparison."
+version: 1.0.0
+date-released: "2025-06-03"
+url: "https://github.com/bryantbyrd/HAPLab-Metabolic-Analyzer"
+license: MIT
+keywords:
+  - exercise physiology
+  - metabolic testing
+  - ventilatory threshold
+  - lactate threshold
+  - VO2max
+  - Parvo TrueOne
+  - sports science
