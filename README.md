@@ -6,6 +6,12 @@ Built for researchers and clinicians working with the **Parvo TrueOne 2400** and
 
 > No installation. No server. No data leaves your browser. Open `index.html` and go.
 
+> ## Live Demo
+
+**[Open HAPLab Metabolic Analyzer](https://bryantbyrd.github.io/HAPLab-Metabolic-Analyzer/)**
+
+No installation required — runs entirely in your browser.
+
 ---
 
 ## Features
