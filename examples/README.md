@@ -8,7 +8,7 @@ Report" export, which is the format the app imports.
 | File | What it imitates |
 |---|---|
 | `synthetic_cycling_step_test_PRE.csv` | Cycling step test, 3-min stages from 100 to 300 W, blood lactate at the end of each stage |
-| `synthetic_cycling_step_test_POST.csv` | The same invented rider "after training", 100 to 325 W — for the comparison view |
+| `synthetic_cycling_step_test_POST.csv` | The same invented rider "after training", 100 to 325 W, for the comparison view |
 | `synthetic_treadmill_step_test.csv` | Treadmill step test, 3-min stages from 6.0 to 10.8 mph, blood lactate at the end of each stage |
 
 ## Try them

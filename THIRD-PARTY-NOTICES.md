@@ -8,7 +8,7 @@ of the app.
 ## Chart.js 4.4.0
 
 * Used for: every chart.
-* File: `vendor/chart.js-4.4.0/chart.umd.js` — the unmodified `dist/chart.umd.js` of the npm package
+* File: `vendor/chart.js-4.4.0/chart.umd.js`, the unmodified `dist/chart.umd.js` of the npm package
   `chart.js@4.4.0` (sha256 `321e3a3fa98da4aaa957d10be57cbb514de0989eed8f9d726b5d05902cd01904`).
 * Licence: MIT. Copyright (c) 2014-2022 Chart.js Contributors.
   Full text: `vendor/chart.js-4.4.0/LICENSE.md`.
@@ -18,7 +18,7 @@ of the app.
 ## xlsx-js-style 1.2.0
 
 * Used for: Excel import and export.
-* File: `vendor/xlsx-js-style-1.2.0/xlsx.bundle.js` — the unmodified `dist/xlsx.bundle.js` of the npm
+* File: `vendor/xlsx-js-style-1.2.0/xlsx.bundle.js`, the unmodified `dist/xlsx.bundle.js` of the npm
   package `xlsx-js-style@1.2.0` (sha256 `1c7abf2993ff2cd61e508f9268e9acda0098c9796f3925d2ba0d2579072653e2`).
 * Licence: Apache License, Version 2.0. Copyright (C) 2012-present SheetJS LLC; styling additions by
   the xlsx-js-style contributors. Full text: `vendor/xlsx-js-style-1.2.0/LICENSE`.

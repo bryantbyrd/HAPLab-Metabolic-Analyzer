@@ -1,6 +1,6 @@
 # HAPLab Metabolic Analyzer
 
-**Version 2.0.1** · released 2026-11-26
+**Version 2.0.2** · released 2026-11-26
 
 **A free, open-source web application for analyzing human metabolic cart data in exercise physiology research.**
 
@@ -8,7 +8,7 @@ Built for researchers and clinicians who run graded exercise tests on people wit
 
 > No installation. No server. No data leaves your browser. Open `index.html` and go.
 
-> **Research and teaching tool — not a medical device.** Results depend on test quality and on the choices the user makes. They are not a diagnosis and must not be used as one.
+> **Research and teaching tool, not a medical device.** Results depend on test quality and on the choices the user makes. They are not a diagnosis and must not be used as one.
 
 > **AOD/MAOD analysis is under development and is not currently available for use.** It is unavailable in this public application and must not be used for research or physiological assessment.
 
@@ -16,7 +16,7 @@ Built for researchers and clinicians who run graded exercise tests on people wit
 
 **[Open HAPLab Metabolic Analyzer](https://bryantbyrd.github.io/HAPLab-Metabolic-Analyzer/)**
 
-No installation required — runs entirely in your browser. To try it without your own data, use the synthetic recordings in [`examples/`](examples/README.md).
+No installation is required: the app runs entirely in your browser. To try it without your own data, use the synthetic recordings in [`examples/`](examples/README.md).
 
 ---
 
@@ -36,21 +36,21 @@ The lactate-threshold analysis in HAPLab includes a **JavaScript adaptation of t
 
 - **Runs fully offline.** Chart.js and xlsx-js-style are included in the `vendor/` folder; the page makes no request to any other host.
 - **Lactate thresholds follow *lactater* 1.0.0** (see the acknowledgement above). Lactate thresholds can differ from those of version 1.0.
-- **Metabolic Response Map** — blood lactate, carbohydrate oxidation and fat oxidation on the same exercise stages, each on its own axis, with intensity-zone shading and optional reference lines.
-- **Fat oxidation and metabolic flexibility** — Fatmax, crossover points and related markers.
-- **Heart-rate quality checks** — dropouts and artefacts are flagged; unusable stages are reported as such instead of being averaged.
+- **Metabolic Response Map:** blood lactate, carbohydrate oxidation and fat oxidation on the same exercise stages, each on its own axis, with intensity-zone shading and optional reference lines.
+- **Fat oxidation and metabolic flexibility:** Fatmax, crossover points and related markers.
+- **Heart-rate quality checks:** dropouts and artefacts are flagged; unusable stages are reported as such instead of being averaged.
 - **Excel export** of a multi-sheet workbook and **Moxy** muscle-oxygenation import.
 - **Synthetic example recordings** in `examples/`.
 
-Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, because it is still being developed, and corrects this README (version 2.0.0 listed LTratio among the lactate methods; it is not implemented). See [`CHANGELOG.md`](CHANGELOG.md).
+Version 2.0.1 switched off the AOD/MAOD calculator that version 2.0.0 showed, because it is still being developed, and corrected this README (version 2.0.0 listed LTratio among the lactate methods; it is not implemented). Version 2.0.2 revises the wording of the app and its documentation; no calculation changed. See [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
 ## Features
 
 ### File Support
-- **Parvo TrueOne 2400** — raw breath-by-breath CSV export (auto-detected)
-- **Pre-cleaned CSV** — formatted exports with inline lactate (`La`) column, stage labels, speed/grade columns
+- **Parvo TrueOne 2400:** raw breath-by-breath CSV export (auto-detected)
+- **Pre-cleaned CSV:** formatted exports with inline lactate (`La`) column, stage labels, speed/grade columns
 - **Moxy** muscle-oxygenation CSV (SmO₂ / THb), added to a loaded test
 - Auto-detects format on upload; manual override available
 
@@ -66,18 +66,18 @@ Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, be
 ### Ventilatory Threshold Identification (VT1/VT2)
 - Draggable VT1 and VT2 threshold lines synced across all charts simultaneously
 - Linear interpolation or nearest measured value toggle
-- Full calculation transparency — click any threshold value to see which data points were used and the exact formula
+- Full calculation transparency: click any threshold value to see which data points were used and the exact formula
 - Submaximal test mode with user-entered known VO₂max and HRmax for percentage calculations
 
 ### Threshold Summary Table
 - VT1 and VT2: Time, HR, VO₂/kg, % VO₂max, % HRmax, RER, Lactate
 - Peak row with test/known max values displayed side by side
-- Transparency indicators (≈ interpolated, = nearest) on every cell — clickable for full derivation detail
+- Transparency indicators (≈ interpolated, = nearest) on every cell, clickable for full derivation detail
 
 ### Results Summary Panel
 - Clean single-session metric table: Peak values, VT1/VT2 metrics, Training Zones
 - Customizable row visibility (show/hide any metric)
-- Peak value overrides: manually replace Peak VO₂/kg, Peak HR, Peak RER, Peak VE with known values — cascade automatically into all percentage calculations
+- Peak value overrides: manually replace Peak VO₂/kg, Peak HR, Peak RER, Peak VE with known values, which cascade automatically into all percentage calculations
 - Same transparency indicators and click-to-explain popups as Threshold Summary
 
 ### Substrate Utilization Table
@@ -87,7 +87,7 @@ Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, be
 - Customizable column visibility
 
 ### Fat Oxidation & Metabolic Flexibility
-- **Metabolic Response Map** — lactate (mmol/L), CHO oxidation (g/min) and fat oxidation (g/min) per stage on three independent axes; zone shading from the lactate thresholds, the ventilatory thresholds or the training-zone table
+- **Metabolic Response Map:** lactate (mmol/L), CHO oxidation (g/min) and fat oxidation (g/min) per stage on three independent axes; zone shading from the lactate thresholds, the ventilatory thresholds or the training-zone table
 - Fatmax from a fitted curve, with the fitted curve available as an overlay
 - Energy crossover and fat/CHO crossover
 - Stage inspection: every value with its kind (measured, calculated, fitted, interpolated) and source
@@ -100,7 +100,7 @@ Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, be
 
 ### Stage Builder (Raw Data Viewer)
 - View the full parsed dataset in a scrollable modal after upload
-- **Define stages by clicking** — click a row to mark stage Start, click again (or another row) to mark End
+- **Define stages by clicking:** click a row to mark stage Start, click again (or another row) to mark End
 - Auto-detects lactate from inline `La` column or from the Parvo Events section
 - Auto-detects speed and grade from inline columns or Events section speed entries
 - Pre-fills the stage table with start, end, workload, grade, and lactate automatically
@@ -125,7 +125,7 @@ Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, be
 
 ### Session Management and Export
 - Save session as JSON (includes all data, thresholds, stage definitions, outlier edits, peak overrides, audit trail)
-- Load session from JSON — full restore including comparison sessions
+- Load session from JSON, with full restore including comparison sessions
 - Unsaved changes indicator
 - Excel workbook export (results, thresholds, lactate methods, stage calculations, full data), chart PNG export and figure captions
 
@@ -151,12 +151,12 @@ All estimated values are clearly labeled with a † indicator throughout the int
 
 ## Calculation Transparency
 
-Every computed value in the app — threshold metrics, stage averages, substrate oxidation rates, percentage calculations — has a clickable indicator revealing exactly how it was derived:
+Every computed value in the app (threshold metrics, stage averages, substrate oxidation rates, percentage calculations) has a clickable indicator revealing exactly how it was derived:
 
-- `≈` — value was linearly interpolated between two data points (shows both points and formula)
-- `○` — nearest measured value was used (shows which row)
-- `ⓘ` — peak/lookup value (shows time of occurrence and co-occurring variables)
-- `✎` — user-entered override
+- `≈`: value was linearly interpolated between two data points (shows both points and formula)
+- `○`: nearest measured value was used (shows which row)
+- `ⓘ`: peak/lookup value (shows time of occurrence and co-occurring variables)
+- `✎`: user-entered override
 
 ---
 
@@ -211,11 +211,11 @@ Recordings from metabolic carts usually contain a name, age, height and body mas
 
 ## Technical Notes
 
-- One HTML file plus two JavaScript libraries in `vendor/` — no build step, nothing to install
+- One HTML file plus two JavaScript libraries in `vendor/`; no build step, nothing to install
 - [Chart.js](https://www.chartjs.org) 4.4.0 (MIT License) for all visualizations
 - [xlsx-js-style](https://github.com/gitbrent/xlsx-js-style) 1.2.0 (Apache License 2.0) for Excel import and export
 - Lactate-threshold methods: a JavaScript adaptation of [lactater](https://github.com/fmmattioni/lactater) 1.0.0 by Felipe Mattioni Maturana (MIT License)
-- All computation runs locally in the browser — no data is transmitted
+- All computation runs locally in the browser; no data is transmitted
 - Session files are JSON and human-readable
 - Full notices: [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)
 
@@ -235,7 +235,7 @@ Recordings from metabolic carts usually contain a name, age, height and body mas
 
 ## License
 
-MIT License — free to use, modify, and distribute. See [`LICENSE`](LICENSE). The included third-party software keeps its own licences: Chart.js (MIT), xlsx-js-style (Apache License 2.0) and lactater (MIT, Copyright (c) 2020 Felipe Mattioni Maturana).
+MIT License: free to use, modify, and distribute. See [`LICENSE`](LICENSE). The included third-party software keeps its own licences: Chart.js (MIT), xlsx-js-style (Apache License 2.0) and lactater (MIT, Copyright (c) 2020 Felipe Mattioni Maturana).
 
 ---
 
@@ -243,7 +243,7 @@ MIT License — free to use, modify, and distribute. See [`LICENSE`](LICENSE). T
 
 If you use HAPLab Metabolic Analyzer in published research, please cite:
 
-> Byrd, B. (2026). *HAPLab Metabolic Analyzer* (Version 2.0.1) [Computer software]. https://doi.org/10.5281/zenodo.20533547
+> Byrd, B. (2026). *HAPLab Metabolic Analyzer* (Version 2.0.2) [Computer software]. https://doi.org/10.5281/zenodo.20533547
 
 *The DOI above always points to the latest version. Please state the version you used for reproducibility.*
 

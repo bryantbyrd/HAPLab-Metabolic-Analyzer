@@ -1,6 +1,14 @@
 # Changelog
 
-## 2.0.1 — 2026-11-26
+## 2.0.2 (2026-11-26)
+
+* Wording revised throughout the app, its Help and its documentation: em dashes are replaced by
+  commas, colons, semicolons, parentheses or separate sentences. Labels, notes, tooltips and
+  messages read differently in places; their meaning is unchanged.
+* The stand-alone dash that marks an empty table cell ("no value") is unchanged.
+* No calculation and no behaviour changed.
+
+## 2.0.1 (2026-11-26)
 
 * The AOD / MAOD calculator is switched off. AOD/MAOD analysis is under development and is not
   currently available for use; it must not be used for research, physiological assessment or
@@ -18,7 +26,7 @@
 * No calculation changed: ventilatory and lactate thresholds, Moxy, the Metabolic Response Map,
   comparisons, sessions and exports give the same results as in 2.0.0.
 
-## 2.0.0 — 2026-11-26
+## 2.0.0 (2026-11-26)
 
 * Runs fully offline: Chart.js 4.4.0 and xlsx-js-style 1.2.0 are included in `vendor/`; the page makes
   no request to any other host.
@@ -32,6 +40,6 @@
 * New: synthetic example recordings in `examples/`.
 * The file-format guide and the built-in sample file no longer show a real person's details.
 
-## 1.0 — 2026-06-03
+## 1.0 (2026-06-03)
 
 First public release.

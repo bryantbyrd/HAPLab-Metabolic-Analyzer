@@ -10,7 +10,7 @@ abstract: "A web-based data reduction and reporting tool for human exercise phys
   supporting physiologist-determined ventilatory and lactate threshold identification,
   training zone calculation, substrate utilization reporting, and longitudinal
   session comparison."
-version: 2.0.1
+version: 2.0.2
 date-released: "2026-11-26"
 url: "https://github.com/bryantbyrd/HAPLab-Metabolic-Analyzer"
 doi: 10.5281/zenodo.20533547
