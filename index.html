@@ -37,14 +37,21 @@ body {
 }
 
 /* ── HEADER ── */
+/* The header is 64px tall while everything fits on one row. When the window is too narrow for the title and the
+   buttons side by side, the buttons wrap onto a second row and the header GROWS (min-height, not height) — the
+   title and subtitle used to wrap inside a fixed 64px box and spill over the session-status bar below. The
+   subtitle shortens with an ellipsis before anything wraps. The bars under the header stick below its real
+   height (--hap-header-h / --hap-status-h, kept current by hapStickyOffsets at the end of the script). */
 header {
   background: var(--red-900);
   color: #fff;
   padding: 0 40px;
-  height: 64px;
+  min-height: 64px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 16px;
+  row-gap: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,.3);
   position: sticky;
   top: 0;
@@ -58,9 +65,9 @@ header {
   flex-shrink: 0;
 }
 .header-logo svg { width: 24px; height: 24px; }
-header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: .3px; }
-header p  { font-size: .8rem; opacity: .75; margin-top: 1px; }
-.header-text { display: flex; flex-direction: column; }
+header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: .3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+header p  { font-size: .8rem; opacity: .75; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-text { display: flex; flex-direction: column; flex: 1 1 250px; min-width: 0; padding: 6px 0; }
 
 /* ── LAYOUT ── */
 main {
@@ -978,12 +985,14 @@ tr.sr-exfit { opacity: .6; }
   color: #475569;
   font-size: .76rem;
   padding: 0 40px;
-  height: 32px;
+  min-height: 32px;         /* grows (its controls wrap) instead of overflowing in a narrow window */
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+  row-gap: 4px;
   position: sticky;
-  top: 90px;
+  top: calc(var(--hap-header-h, 64px) + var(--hap-status-h, 26px));
   z-index: 98;
 }
 #comparisonBanner .cb-dot {
@@ -2201,11 +2210,15 @@ th.rdv-col-active { background: #cbd5e1; color: #1f2937; box-shadow: none; }
 /* ── Session save/load ───────────────────────────────────────────────── */
 .header-actions {
   display: flex;
+  flex-wrap: wrap;          /* very narrow windows: the buttons themselves wrap instead of running off the page */
   align-items: center;
   gap: 10px;
+  row-gap: 6px;
   margin-left: auto;
-  flex-shrink: 0;
+  max-width: 100%;
+  padding: 8px 0;
 }
+@media (max-width: 700px) { header { padding: 0 16px; } #sessionStatusBar, #comparisonBanner { padding-left: 16px; padding-right: 16px; } }
 .btn-save-session {
   padding: 7px 16px;
   background: var(--red-800);
@@ -2237,12 +2250,12 @@ th.rdv-col-active { background: #cbd5e1; color: #1f2937; box-shadow: none; }
   color: rgba(255,255,255,.65);
   font-size: .74rem;
   padding: 0 40px;
-  height: 26px;
+  min-height: 26px;         /* grows instead of overflowing when a long session name wraps */
   display: flex;
   align-items: center;
   gap: 8px;
   position: sticky;
-  top: 64px;
+  top: var(--hap-header-h, 64px);
   z-index: 99;
 }
 #sessionStatusBar .sb-dot {
@@ -3960,6 +3973,42 @@ let state = {
   knownVemax: '',                  // user-entered peak VE override (Results Summary only); blank = use peak test value
   testType: 'maximal'              // 'maximal' | 'submaximal'
 };
+
+// ─────────────────────────────────────────────
+// AOD / MAOD CALCULATOR — AVAILABILITY SWITCH
+// The AOD / MAOD calculator is under development and must not be used for research, physiological
+// assessment or exercise prescription. This one constant decides whether it can be reached:
+//   true  — development copy: the calculator is available, as before.
+//   false — public copy (set by tools/build_public_release.py): the calculator cannot be opened. Its
+//           navigation is removed, setAnalysisMode('aod') is refused, its page and dialogs are taken out of
+//           the document, its file handler and renderer do nothing, and a session that was saved with the
+//           calculator open reopens in the threshold workflow.
+// Nothing of the AOD implementation is removed or changed by the switch, and AOD data stored in a session
+// file is kept as it is (loaded into state.aod and written back on save).
+// ─────────────────────────────────────────────
+const HAP_AOD_ENABLED = false;
+const HAP_AOD_UNAVAILABLE_NOTE = 'AOD/MAOD analysis is under development and is not currently available for use.';
+
+// ─────────────────────────────────────────────
+// RODENT MODE (Columbus Instruments Oxymax) — AVAILABILITY SWITCH
+// The public HAPLab Metabolic Analyzer is for human exercise tests. This constant decides whether Rodent Mode
+// can be entered:
+//   true  — development copy: Rodent Mode works as before.
+//   false — public copy (set by tools/build_public_release.py): Rodent Mode cannot be entered. An Oxymax file
+//           is refused before anything of the current session is touched, the "Switch to Rodent Mode" button
+//           is not drawn, toggleAnimalMode() does nothing, and a session or comparison file saved in Rodent
+//           Mode is refused with a message.
+// Nothing of the rodent implementation is removed or changed by the switch.
+// ─────────────────────────────────────────────
+const HAP_RODENT_ENABLED = false;
+const HAP_RODENT_UNAVAILABLE_NOTE = 'This file is from a rodent (Columbus Instruments Oxymax) test. Rodent Mode is not available in this version of HAPLab Metabolic Analyzer, which analyses human exercise tests. Nothing was loaded.';
+// A saved session (single or one half of a comparison bundle) that was recorded in Rodent Mode.
+function _hapIsRodentSession(s) { return !!(s && (s.animalMode || s.fileFormat === 'oxymax')); }
+// Does this raw file text look like an Oxymax export? (the parser's own test, on the first lines)
+function _hapLooksLikeOxymax(text) {
+  try { const rows = String(text || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').slice(0, 400).map(parseCSVLine); return isOxymaxFormat(rows); }
+  catch (e) { return false; }
+}
 
 // ─────────────────────────────────────────────
 // AOD / MAOD CALCULATOR STATE (Phase 1)
@@ -8250,7 +8299,12 @@ function _buildStudentStageProposal(){
 // ─────────────────────────────────────────────
 // MAIN PARSE ENTRY POINT
 // ─────────────────────────────────────────────
-function parseFile(text, fileName) { return renderBatch(() => _parseFileImpl(text, fileName)); }
+function parseFile(text, fileName) {
+  // Rodent Mode not available (HAP_RODENT_ENABLED false): an Oxymax file is refused here, before the import
+  // resets anything, so the session on screen stays exactly as it was.
+  if (!HAP_RODENT_ENABLED && _hapLooksLikeOxymax(text)) { console.info(HAP_RODENT_UNAVAILABLE_NOTE); alert(HAP_RODENT_UNAVAILABLE_NOTE); return false; }
+  return renderBatch(() => _parseFileImpl(text, fileName));
+}
 function _parseFileImpl(text, fileName) {
   _memoClear();
   try { secResetAll(); } catch (e) { }   // every section starts collapsed on a new file
@@ -8477,7 +8531,8 @@ function renderExpectedChecklist() {
     const _rodentBadge = state.animalMode
       ? `<span class="rodent-badge" title="Rodent metabolic-cart analysis mode">&#128002; Rodent Mode</span>`
       : '';
-    const _override = `<button class="mode-override-btn" type="button" onclick="toggleAnimalMode()" title="Force-switch modes if auto-detection was wrong">${state.animalMode ? 'Switch to Human Mode' : 'Switch to Rodent Mode'}</button>`;
+    // The mode-override button exists only where Rodent Mode is available (HAP_RODENT_ENABLED).
+    const _override = !HAP_RODENT_ENABLED ? '' : `<button class="mode-override-btn" type="button" onclick="toggleAnimalMode()" title="Force-switch modes if auto-detection was wrong">${state.animalMode ? 'Switch to Human Mode' : 'Switch to Rodent Mode'}</button>`;
     fmtBadge.innerHTML = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">${_badge}${_rodentBadge}<button class="sub-col-btn" type="button" onclick="openDataViewer()" title="Inspect the full parsed breath-by-breath dataset">View Data</button>${_override}</div>`;
   } else {
     fmtBadge.innerHTML = '';
@@ -8886,6 +8941,9 @@ function handleFile(file) {
   }
   const reader = new FileReader();
   reader.onload = e => {
+    // Rodent Mode not available: refuse an Oxymax file before the Moxy question, the import and the
+    // "imported" mark — nothing of the current session changes.
+    if (!HAP_RODENT_ENABLED && _hapLooksLikeOxymax(e.target.result)) { console.info(HAP_RODENT_UNAVAILABLE_NOTE); alert(HAP_RODENT_UNAVAILABLE_NOTE); return; }
     const keepMoxy = _moxyBeforeNewCart();   // Phase 60: asked BEFORE the new cart is parsed
     parseFile(e.target.result, file.name); markSessionImported();
     if (!keepMoxy) _moxyClear(); else { try { moxyRetag(); } catch (err) { console.warn('[moxy] retag failed', err); } }
@@ -27384,6 +27442,7 @@ function _refreshRodentSpeedCharts() {
 // Manual override: force-switch between human and rodent display modes when
 // auto-detection is wrong. Re-applies all conditional adaptations.
 function toggleAnimalMode() {
+  if (!HAP_RODENT_ENABLED) { console.info('Rodent Mode is not available in this version of HAPLab Metabolic Analyzer.'); return; }   // human-only copy: no mode to switch to
   state.animalMode = !state.animalMode;
   if (state.animalMode && state.modality !== 'running') state.modality = 'running';
   document.getElementById('thresholdPanel')?.classList.toggle('hidden', !!state.animalMode);
@@ -28063,6 +28122,9 @@ function renderLactateCompCharts() {
 function parseComparisonJSON(text, fileName) {
   _memoClear();
   const session         = JSON.parse(text);
+  // Rodent Mode not available: a comparison session saved in Rodent Mode is refused before compState changes
+  // (the callers show the message).
+  if (!HAP_RODENT_ENABLED && _hapIsRodentSession(session)) throw new Error(HAP_RODENT_UNAVAILABLE_NOTE);
   compState.fileName    = session.csvFilename  || fileName;
   compState.patientInfo = session.patientInfo  || {};
   compState.rawHeaders  = session.rawHeaders   || [];
@@ -33415,6 +33477,12 @@ function loadSessionFromFile(file) {
     // Auto-detect: a comparison bundle (*.haplab-compare.json, bundleType "comparison") restores BOTH
     // sessions plus the comparison settings and opens the Comparison view; anything else is a
     // single-session file and loads exactly as before.
+    // Rodent Mode not available: a session (or either session of a comparison file) saved in Rodent Mode is
+    // refused here, before anything of the current workspace is replaced.
+    if (!HAP_RODENT_ENABLED) {
+      const parts = (session && session.bundleType === 'comparison') ? Object.values(session.sessions || {}) : [session];
+      if (parts.some(_hapIsRodentSession)) { console.info(HAP_RODENT_UNAVAILABLE_NOTE); alert(HAP_RODENT_UNAVAILABLE_NOTE); return; }
+    }
     if (session && session.bundleType === 'comparison') { loadComparisonBundle(session); return; }
     _restoreSingleSession(session);
   };
@@ -33422,6 +33490,7 @@ function loadSessionFromFile(file) {
 }
 // Restore ONE parsed single-session bundle into the primary slot (the historical Load Session path).
 function _restoreSingleSession(session) {
+  if (!HAP_RODENT_ENABLED && _hapIsRodentSession(session)) { console.info(HAP_RODENT_UNAVAILABLE_NOTE); return false; }   // also refused when called directly
   if (typeof compState !== 'undefined' && compState.loaded) { try { clearComparison(); } catch (e) { } }   // a single-session file replaces the workspace
   renderBatch(() => {
     _memoClear();
@@ -33733,7 +33802,12 @@ function _restoreSingleSession(session) {
     // Re-render the AOD UI from the merged state, and re-open it if it was the
     // active analysis when the session was saved.
     try {
-      if (state.aod && state.aod.active) {
+      if (!HAP_AOD_ENABLED) {
+        // Calculator not available: a session saved with it open reopens in the threshold workflow. The AOD
+        // data of the session stay in state.aod untouched (and are written back on save); only "active" is cleared.
+        if (state.aod) state.aod.active = false;
+        setAnalysisMode('threshold');
+      } else if (state.aod && state.aod.active) {
         setAnalysisMode('aod');
       } else if (state.aod && (state.aod.files.submax || state.aod.files.vo2peak)) {
         aodRenderAll();
@@ -36286,17 +36360,23 @@ let _aodBoutWorkKJ = null;   // last previewed bout work output (kJ) for the cha
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 function setAnalysisMode(mode){
-  const aod = (mode === 'aod');
+  // HAP_AOD_ENABLED false: a request for the AOD calculator is refused and the threshold workflow stays (or
+  // comes back) on screen. The elements are looked up defensively because the AOD page and the navigation are
+  // not in the document then.
+  if (mode === 'aod' && !HAP_AOD_ENABLED) console.info(HAP_AOD_UNAVAILABLE_NOTE);
+  const aod = (mode === 'aod') && HAP_AOD_ENABLED;
   state.aod.active = aod;
-  document.getElementById('thresholdPage').classList.toggle('hidden', aod);
-  document.getElementById('aodPage').classList.toggle('hidden', !aod);
-  document.getElementById('navThresholdBtn').classList.toggle('active', !aod);
-  document.getElementById('navAodBtn').classList.toggle('active', aod);
+  const cls = (id, name, on) => { const el = document.getElementById(id); if (el) el.classList.toggle(name, on); };
+  cls('thresholdPage', 'hidden', aod);
+  cls('aodPage', 'hidden', !aod);
+  cls('navThresholdBtn', 'active', !aod);
+  cls('navAodBtn', 'active', aod);
   if (aod) aodRenderAll();
 }
 
 // ── File ingestion ──────────────────────────────────────────────────────────
 function handleAodFile(slot, file){
+  if (!HAP_AOD_ENABLED) { console.info(HAP_AOD_UNAVAILABLE_NOTE); return; }   // calculator not available: nothing is read
   if (!file) return;
   const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
   const allowed = ['.xls', '.xlsx', '.csv', '.txt'];
@@ -37417,6 +37497,7 @@ function aodRecalculate(){
   aodRenderReviewWarningsMain();
 }
 function aodRenderAll(){
+  if (!HAP_AOD_ENABLED) return;   // calculator not available: its page is not in the document, nothing to draw
   aodRenderFileInfo('submax');
   aodRenderFileInfo('vo2peak');
   aodRenderFileInfo('aodBout');
@@ -38433,6 +38514,25 @@ function aodReviewAccept(){
   if (subEl) subEl.addEventListener('change', function(){ if (this.files[0]) handleAodFile('submax', this.files[0]); this.value = ''; });
   if (peakEl) peakEl.addEventListener('change', function(){ if (this.files[0]) handleAodFile('vo2peak', this.files[0]); this.value = ''; });
   if (boutEl) boutEl.addEventListener('change', function(){ if (this.files[0]) handleAodFile('aodBout', this.files[0]); this.value = ''; });
+})();
+// ── Sticky bars follow the header's real height ─────────────────────────────────
+// The header grows when its buttons wrap in a narrow window; the session-status bar and the comparison banner
+// stick directly below it, wherever its lower edge is (CSS variables read by their `top`).
+(function hapStickyOffsets(){
+  const head = document.querySelector('header'), bar = document.getElementById('sessionStatusBar'); if (!head || !bar) return;
+  const set = () => { const st = document.documentElement.style; st.setProperty('--hap-header-h', head.offsetHeight + 'px'); st.setProperty('--hap-status-h', bar.offsetHeight + 'px'); };
+  set();
+  try { const ro = new ResizeObserver(set); ro.observe(head); ro.observe(bar); } catch (e) { window.addEventListener('resize', set); }
+})();
+// ── AOD availability (see HAP_AOD_ENABLED) ───────────────────────────────────────
+// When the calculator is not available, everything that could show it leaves the document at start-up: the
+// analysis-type navigation (one workflow remains, so there is nothing to switch), the calculator page and its
+// two dialogs. The AOD functions stay defined; they have nothing to draw into and their entry points refuse.
+(function hapApplyAodAvailability(){
+  if (HAP_AOD_ENABLED) return;
+  ['analysisNav', 'aodPage', 'aodReviewModal', 'aodCalcModal'].forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
+  try { state.aod.active = false; } catch (e) { }
+  const tp = document.getElementById('thresholdPage'); if (tp) tp.classList.remove('hidden');
 })();
 HAP_SETUP.ready = true;   // the app script ran to its end (tests and the setup banner read window.__hapSetup)
 </script>

@@ -29,12 +29,20 @@ of the app.
 
 ## lactater 1.0.0 (adapted, inside the HTML file)
 
-* Used for: the lactate-threshold methods (Log-log, OBLA, Bsln+, Dmax, ModDmax, Exp-Dmax,
-  Log-Poly-ModDmax, Log-Exp-ModDmax, LTP1 / LTP2, LTratio).
-* HAPLab contains a JavaScript adaptation of the R source of *lactater* v1.0.0 by Felipe Mattioni
-  Maturana (https://github.com/fmmattioni/lactater). Differences from the R package are marked
-  "HAPLAB:" in the code.
-* Licence: MIT.
+* HAPLab contains a **JavaScript adaptation** of the R source of *lactater* v1.0.0
+  ("lactater: Tools for Analyzing Lactate Thresholds") by **Felipe Mattioni Maturana**
+  (https://github.com/fmmattioni/lactater). Differences from the R package are marked "HAPLAB:" in
+  the code. Any error in the adaptation is HAPLab's and not the original author's.
+* Adapted and used for: the lactate-threshold methods Log-log; OBLA (2.0, 2.5, 3.0, 3.5, 4.0 mmol/L);
+  Bsln+ (baseline + 0.5, 1.0, 1.5 mmol/L); Dmax, ModDmax, Exp-Dmax, Log-Poly-ModDmax,
+  Log-Exp-ModDmax; LTP1 and LTP2; with the curve fits 3rd- and 4th-degree polynomial, B-spline and
+  exponential.
+* Not adapted (not available in HAPLab): LTratio; IAT, Keul, Simon, Stegmann; LTP1-Poly-ModDmax;
+  bootstrap confidence intervals; and the package's zone, training-load, reliability, MLSS, VLamax,
+  performance-prediction, percentile and reporting functions. (The notices of version 2.0.0 listed
+  LTratio as used; that was an error.)
+* Licence: MIT. The copyright notice and permission notice below are also reproduced at the head of
+  the lactate code inside the HTML file.
 
 ```
 Copyright (c) 2020 Felipe Mattioni Maturana

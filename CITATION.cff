@@ -5,12 +5,12 @@ authors:
     given-names: Bryant
     affiliation: "Western Colorado University"
 title: "HAPLab Metabolic Analyzer"
-abstract: "A web-based data reduction and reporting tool for exercise physiology testing.
+abstract: "A web-based data reduction and reporting tool for human exercise physiology testing.
   Integrates Parvo TrueOne 2400 metabolic cart data with blood lactate measurements,
   supporting physiologist-determined ventilatory and lactate threshold identification,
   training zone calculation, substrate utilization reporting, and longitudinal
   session comparison."
-version: 2.0.0
+version: 2.0.1
 date-released: "2026-11-26"
 url: "https://github.com/bryantbyrd/HAPLab-Metabolic-Analyzer"
 doi: 10.5281/zenodo.20533547
@@ -23,3 +23,13 @@ keywords:
   - VO2max
   - Parvo TrueOne
   - sports science
+references:
+  - type: software
+    title: "lactater: Tools for Analyzing Lactate Thresholds"
+    authors:
+      - family-names: "Mattioni Maturana"
+        given-names: Felipe
+    version: 1.0.0
+    license: MIT
+    url: "https://github.com/fmmattioni/lactater"
+    notes: "The lactate-threshold methods in HAPLab Metabolic Analyzer are a JavaScript adaptation of this R package."

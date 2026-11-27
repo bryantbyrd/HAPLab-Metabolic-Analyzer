@@ -1,14 +1,16 @@
 # HAPLab Metabolic Analyzer
 
-**Version 2.0.0** · released 2026-11-26
+**Version 2.0.1** · released 2026-11-26
 
-**A free, open-source web application for analyzing metabolic cart data in exercise physiology research.**
+**A free, open-source web application for analyzing human metabolic cart data in exercise physiology research.**
 
-Built for researchers and clinicians working with the **Parvo TrueOne 2400** and compatible metabolic carts. Includes **Rodent Mode** for the **Columbus Instruments Oxymax** system.
+Built for researchers and clinicians who run graded exercise tests on people with the **Parvo TrueOne 2400** metabolic cart.
 
 > No installation. No server. No data leaves your browser. Open `index.html` and go.
 
 > **Research and teaching tool — not a medical device.** Results depend on test quality and on the choices the user makes. They are not a diagnosis and must not be used as one.
+
+> **AOD/MAOD analysis is under development and is not currently available for use.** It is unavailable in this public application and must not be used for research or physiological assessment.
 
 ## Live Demo
 
@@ -18,17 +20,29 @@ No installation required — runs entirely in your browser. To try it without yo
 
 ---
 
-## What's new in 2.0.0
+## Acknowledgement: lactater
+
+The lactate-threshold analysis in HAPLab includes a **JavaScript adaptation of the R package [lactater](https://github.com/fmmattioni/lactater), version 1.0.0, by Felipe Mattioni Maturana**, used under the MIT License.
+
+- Copyright (c) 2020 Felipe Mattioni Maturana. The MIT licence text and copyright notice are reproduced in [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) and at the head of the lactate code inside `index.html`.
+- The adaptation follows the R source of lactater 1.0.0 and is checked against results produced by the R package itself. Places where HAPLab departs from the package are marked `HAPLAB:` in the code.
+- **Adapted from lactater:** Log-log; OBLA (2.0, 2.5, 3.0, 3.5 and 4.0 mmol/L); Bsln+ (baseline + 0.5, 1.0 and 1.5 mmol/L); Dmax, ModDmax, Exp-Dmax, Log-Poly-ModDmax and Log-Exp-ModDmax; LTP1 and LTP2. Curve fits: 3rd- and 4th-degree polynomial, B-spline, and exponential.
+- **Not included:** LTratio; the individual-anaerobic-threshold methods (IAT, Keul, Simon, Stegmann); LTP1-Poly-ModDmax; bootstrap confidence intervals; and lactater's zone, training-load, reliability, MLSS, VLamax, performance-prediction, percentile and reporting functions.
+- Any error in the adaptation is HAPLab's and not the original author's. If you report lactate thresholds from this app, please cite lactater as well (see [References](#references)).
+
+---
+
+## What's new in version 2
 
 - **Runs fully offline.** Chart.js and xlsx-js-style are included in the `vendor/` folder; the page makes no request to any other host.
-- **Lactate thresholds follow *lactater* 1.0.0** (Log-log, OBLA, Bsln+, Dmax, ModDmax, Exp-Dmax, Log-Poly-ModDmax, Log-Exp-ModDmax, LTP1 / LTP2, LTratio), checked against the R package's own results. Lactate thresholds can differ from those of version 1.0.
+- **Lactate thresholds follow *lactater* 1.0.0** (see the acknowledgement above). Lactate thresholds can differ from those of version 1.0.
 - **Metabolic Response Map** — blood lactate, carbohydrate oxidation and fat oxidation on the same exercise stages, each on its own axis, with intensity-zone shading and optional reference lines.
 - **Fat oxidation and metabolic flexibility** — Fatmax, crossover points and related markers.
 - **Heart-rate quality checks** — dropouts and artefacts are flagged; unusable stages are reported as such instead of being averaged.
-- **Excel export** of a multi-sheet workbook, **Moxy** muscle-oxygenation import, and an **AOD / MAOD calculator**.
+- **Excel export** of a multi-sheet workbook and **Moxy** muscle-oxygenation import.
 - **Synthetic example recordings** in `examples/`.
 
-See [`CHANGELOG.md`](CHANGELOG.md).
+Version 2.0.1 switches off the AOD/MAOD calculator that version 2.0.0 showed, because it is still being developed, and corrects this README (version 2.0.0 listed LTratio among the lactate methods; it is not implemented). See [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
@@ -37,11 +51,10 @@ See [`CHANGELOG.md`](CHANGELOG.md).
 ### File Support
 - **Parvo TrueOne 2400** — raw breath-by-breath CSV export (auto-detected)
 - **Pre-cleaned CSV** — formatted exports with inline lactate (`La`) column, stage labels, speed/grade columns
-- **Columbus Instruments Oxymax** — rodent metabolic cart CSV (auto-detected, switches to Rodent Mode)
 - **Moxy** muscle-oxygenation CSV (SmO₂ / THb), added to a loaded test
 - Auto-detects format on upload; manual override available
 
-### Metabolic Charts (Human Mode)
+### Metabolic Charts
 - V-slope (VCO₂ vs VO₂)
 - RER vs Time
 - VE, VE/VO₂, VE/VCO₂ vs Time
@@ -93,10 +106,11 @@ See [`CHANGELOG.md`](CHANGELOG.md).
 - Pre-fills the stage table with start, end, workload, grade, and lactate automatically
 
 ### Lactate Analysis
-- Per-stage lactate entry and curve fitting
-- Lactate-threshold methods of the R package *lactater* 1.0.0: Log-log, OBLA, Bsln+, Dmax, ModDmax, Exp-Dmax, Log-Poly-ModDmax, Log-Exp-ModDmax, LTP1 / LTP2, LTratio
+- Per-stage lactate entry and curve fitting (3rd- or 4th-degree polynomial, B-spline, exponential)
+- Lactate-threshold methods adapted from *lactater* 1.0.0: Log-log; OBLA 2.0–4.0 mmol/L; Bsln+ 0.5 / 1.0 / 1.5 mmol/L; Dmax, ModDmax, Exp-Dmax, Log-Poly-ModDmax, Log-Exp-ModDmax; LTP1 and LTP2
 - LT1 and LT2 are chosen from those methods; every method's value is listed in a methods table
 - A method that cannot be determined from the data is reported as such, with the reason
+- LTratio and the IAT-family methods of lactater are not implemented
 
 ### Training Zones
 - Zone tables from the ventilatory or the lactate thresholds, with selectable zone models
@@ -115,42 +129,8 @@ See [`CHANGELOG.md`](CHANGELOG.md).
 - Unsaved changes indicator
 - Excel workbook export (results, thresholds, lactate methods, stage calculations, full data), chart PNG export and figure captions
 
-### AOD / MAOD Calculator
-- Accumulated oxygen deficit from a sub-maximal calibration regression
-
----
-
-## Rodent Mode (Columbus Instruments Oxymax)
-
-Upload an Oxymax CSV file and the app automatically switches to Rodent Mode.
-
-### Auto-Detected From File Header
-- Subject ID, body mass (grams), experiment date
-- Elapsed time computed from absolute timestamps
-- VO₂ and VCO₂ converted from ml/hr to mL/kg/min using parsed body mass
-
-### Rodent-Specific Charts
-- RER, VO₂/kg, VO₂ and VCO₂ vs Time
-- **VO₂/kg vs Speed** (primary rodent GXT view)
-- CHO and FAT Oxidation vs Speed and vs Time
-- **CHO/FAT Crossover chart** with Speed/Time toggle and a draggable marker
-- **V-slope (VCO₂ vs VO₂)**
-- **Excess CO₂ vs Time** — ExCO₂ = VCO₂ − VO₂
-
-### Substrate Estimation
-- CHO and FAT oxidation estimated via Frayn (1983) equations from VO₂ and VCO₂ when not directly measured
-- All estimated values marked with † throughout charts and tables
-
-### AT1/AT2 Threshold System
-- Two draggable threshold lines (AT1 = moderate→heavy domain; AT2 = heavy→severe domain)
-- Time is the single source of truth — dragging on any chart updates all charts
-- Speed units toggle: m/min ↔ km/h
-
-### Auto-Stage Generation
-- Stages automatically generated from the treadmill speed column on upload
-
-### HR/VE Features
-- HR and VE charts, columns, and training zones hidden in Rodent Mode (not available from a chamber-based system)
+### AOD / MAOD Analysis
+AOD/MAOD analysis is under development and is not currently available for use. It is unavailable in this public application and must not be used for research or physiological assessment.
 
 ---
 
@@ -184,9 +164,9 @@ Every computed value in the app — threshold metrics, stage averages, substrate
 
 1. Open the live demo, or open `index.html` from a downloaded copy
 2. Drag and drop your CSV file onto the upload zone, or click to browse
-3. The app auto-detects your file format and switches modes if needed
+3. The app auto-detects your file format
 4. Confirm the proposed stages and enter lactate values (or use Stage Builder)
-5. Drag VT1/VT2 (or AT1/AT2 in Rodent Mode) lines on any chart to set thresholds
+5. Drag the VT1/VT2 lines on any chart to set thresholds
 6. Save your session as JSON to preserve all edits and reload later
 
 ### Running it offline
@@ -210,17 +190,17 @@ If `index.html` is moved without the `vendor` folder the app shows a message say
 |------|--------|--------------|
 | Parvo TrueOne 2400 | Raw breath-by-breath CSV | ✓ |
 | Pre-cleaned CSV (with Stage/La columns) | Formatted CSV | ✓ |
-| Columbus Instruments Oxymax | Oxymax CSV v1.x | ✓ (Rodent Mode) |
 
 ---
 
 ## Limitations
 
-- Built for desktop browsers. The automated tests run in Chromium (Chrome / Edge); other browsers are not covered by them.
+- **AOD/MAOD analysis is under development and is not currently available for use.** It is unavailable in this public application and must not be used for research or physiological assessment.
+- For human exercise tests. Built for desktop browsers; the automated tests run in Chromium (Chrome / Edge), and other browsers are not covered by them.
 - Input formats are those listed above. Other carts' exports are not supported.
 - Thresholds, Fatmax and crossover points are estimates from a single test. Different methods give different values; the app reports them separately and does not treat them as interchangeable.
+- Not every lactater method is implemented (see the acknowledgement above).
 - Substrate oxidation assumes a steady state and RER between 0.70 and 1.00; stages outside that range are flagged.
-- The AOD / MAOD calculator and Rodent Mode are not yet covered by the automated tests of this release.
 - There is no user account, cloud storage or multi-user database: a session is a file you keep.
 
 ## Privacy
@@ -234,7 +214,7 @@ Recordings from metabolic carts usually contain a name, age, height and body mas
 - One HTML file plus two JavaScript libraries in `vendor/` — no build step, nothing to install
 - [Chart.js](https://www.chartjs.org) 4.4.0 (MIT License) for all visualizations
 - [xlsx-js-style](https://github.com/gitbrent/xlsx-js-style) 1.2.0 (Apache License 2.0) for Excel import and export
-- Lactate-threshold methods adapted from [lactater](https://github.com/fmmattioni/lactater) 1.0.0 by Felipe Mattioni Maturana (MIT License)
+- Lactate-threshold methods: a JavaScript adaptation of [lactater](https://github.com/fmmattioni/lactater) 1.0.0 by Felipe Mattioni Maturana (MIT License)
 - All computation runs locally in the browser — no data is transmitted
 - Session files are JSON and human-readable
 - Full notices: [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)
@@ -249,13 +229,13 @@ Recordings from metabolic carts usually contain a name, age, height and body mas
 - Bishop, D., Jenkins, D.G., & Mackinnon, L.T. (1998). The relationship between plasma lactate parameters, Wpeak and 1-h cycling performance in women. *Medicine & Science in Sports & Exercise*, 30(8), 1270–1275.
 - Cheng, B., et al. (1992). A new approach for the determination of ventilatory and lactate thresholds. *International Journal of Sports Medicine*, 13(7), 518–522.
 - Frayn, K.N. (1983). Calculation of substrate oxidation rates in vivo from gaseous exchange. *Journal of Applied Physiology*, 55(2), 628–634.
-- Mattioni Maturana, F. *lactater: Tools for Analyzing Lactate Thresholds* (R package, version 1.0.0). https://github.com/fmmattioni/lactater
+- Mattioni Maturana, F. (2026). *lactater: Tools for Analyzing Lactate Thresholds* (R package, version 1.0.0). https://github.com/fmmattioni/lactater
 
 ---
 
 ## License
 
-MIT License — free to use, modify, and distribute. See [`LICENSE`](LICENSE). The included third-party software keeps its own licences.
+MIT License — free to use, modify, and distribute. See [`LICENSE`](LICENSE). The included third-party software keeps its own licences: Chart.js (MIT), xlsx-js-style (Apache License 2.0) and lactater (MIT, Copyright (c) 2020 Felipe Mattioni Maturana).
 
 ---
 
@@ -263,7 +243,7 @@ MIT License — free to use, modify, and distribute. See [`LICENSE`](LICENSE). T
 
 If you use HAPLab Metabolic Analyzer in published research, please cite:
 
-> Byrd, B. (2026). *HAPLab Metabolic Analyzer* (Version 2.0.0) [Computer software]. https://doi.org/10.5281/zenodo.20533547
+> Byrd, B. (2026). *HAPLab Metabolic Analyzer* (Version 2.0.1) [Computer software]. https://doi.org/10.5281/zenodo.20533547
 
 *The DOI above always points to the latest version. Please state the version you used for reproducibility.*
 
