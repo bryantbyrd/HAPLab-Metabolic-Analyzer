@@ -2,11 +2,9 @@
 
 ## 2.0.2 (2026-11-26)
 
-* Wording revised throughout the app, its Help and its documentation: em dashes are replaced by
-  commas, colons, semicolons, parentheses or separate sentences. Labels, notes, tooltips and
-  messages read differently in places; their meaning is unchanged.
-* The stand-alone dash that marks an empty table cell ("no value") is unchanged.
-* No calculation and no behaviour changed.
+* The documentation, interface labels, help sections and instructional text have been refined for
+  clarity and consistency.
+* No analytical calculations or functionality have changed.
 
 ## 2.0.1 (2026-11-26)
 

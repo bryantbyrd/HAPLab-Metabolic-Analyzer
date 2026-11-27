@@ -42,7 +42,7 @@ The lactate-threshold analysis in HAPLab includes a **JavaScript adaptation of t
 - **Excel export** of a multi-sheet workbook and **Moxy** muscle-oxygenation import.
 - **Synthetic example recordings** in `examples/`.
 
-Version 2.0.1 switched off the AOD/MAOD calculator that version 2.0.0 showed, because it is still being developed, and corrected this README (version 2.0.0 listed LTratio among the lactate methods; it is not implemented). Version 2.0.2 revises the wording of the app and its documentation; no calculation changed. See [`CHANGELOG.md`](CHANGELOG.md).
+Version 2.0.1 switched off the AOD/MAOD calculator that version 2.0.0 showed, because it is still being developed, and corrected this README (version 2.0.0 listed LTratio among the lactate methods; it is not implemented). Version 2.0.2 refines the documentation, interface labels, help sections and instructional text for clarity and consistency; no analytical calculations or functionality changed. See [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
